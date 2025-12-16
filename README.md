@@ -20,6 +20,9 @@ Press `v` to toggle vendor frame visibility. Consecutive vendor frames collapse 
 ### Vendor frames shown (default)
 
 ```
+[2024-01-15 10:23:45] production.ERROR: User not found
+ {"exception":"[object] (App\\Exceptions\\UserNotFoundException(code: 0):
+ User not found at /app/Services/UserService.php:128)
  ╭─Trace────────────────────────────────────────────────────────────────────╮
  │ #00 /app/Http/Controllers/UserController.php(42): store()                │
  │ #01 /vendor/laravel/framework/src/Illuminate/Routing/Router.php(693)     │
@@ -34,6 +37,9 @@ Press `v` to toggle vendor frame visibility. Consecutive vendor frames collapse 
 ### Vendor frames hidden (press `v`)
 
 ```
+[2024-01-15 10:23:45] production.ERROR: User not found
+ {"exception":"[object] (App\\Exceptions\\UserNotFoundException(code: 0):
+ User not found at /app/Services/UserService.php:128)
  ╭─Trace────────────────────────────────────────────────────────────────────╮
  │ #00 /app/Http/Controllers/UserController.php(42): store()                │
  │ #… (5 vendor frames)                                                     │
