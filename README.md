@@ -4,6 +4,8 @@ Vendor-aware tail for Laravel logs with stack trace formatting and vendor frame 
 
 vtail is an interactive TUI for real-time log monitoring that intelligently collapses vendor frames in stack traces, making it easier to focus on your application code.
 
+![vtail screenshot](art/screenshot.png)
+
 ## Features
 
 - **Vendor Frame Collapsing** - Hide vendor frames in stack traces with a single keypress, collapsing them into a count like `#… (5 vendor frames)`
