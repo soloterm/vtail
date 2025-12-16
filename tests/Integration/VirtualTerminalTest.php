@@ -16,13 +16,13 @@ class VirtualTerminalTest extends TestCase
 {
     protected function getFixturePath(string $name): string
     {
-        return __DIR__ . '/../Fixtures/' . $name;
+        return __DIR__.'/../Fixtures/'.$name;
     }
 
     #[Test]
     public function it_renders_basic_log_lines()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(80, 24);
 
         $app->addLines([
@@ -45,7 +45,7 @@ class VirtualTerminalTest extends TestCase
     #[Test]
     public function it_renders_exception_with_stack_trace()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 40);
 
         // Load the real fixture
@@ -74,7 +74,7 @@ class VirtualTerminalTest extends TestCase
     #[Test]
     public function vendor_toggle_reduces_visible_lines()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 40);
         $app->loadFixture($this->getFixturePath('enhance-log-wrap-vendor-test.log'));
 
@@ -104,13 +104,13 @@ class VirtualTerminalTest extends TestCase
     #[Test]
     public function wrap_toggle_changes_line_count()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(80, 30); // Narrow width to force wrapping
 
         // Add long lines that will wrap
         $longLine = str_repeat('A', 200);
         $app->addLines([
-            '[2025-01-01] ' . $longLine,
+            '[2025-01-01] '.$longLine,
             '[2025-01-01] Short line',
         ]);
 
@@ -134,7 +134,7 @@ class VirtualTerminalTest extends TestCase
     #[Test]
     public function scroll_position_updates_visible_lines()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(80, 10); // Small height to force scrolling
 
         // Add many lines to force scrolling
@@ -189,7 +189,7 @@ class VirtualTerminalTest extends TestCase
         // Run with: ./vendor/bin/phpunit --filter debug_current_rendering_issue
         // and inspect the output.
 
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 40);
 
         // Load fixture
@@ -227,7 +227,7 @@ class VirtualTerminalTest extends TestCase
     {
         // This test helps debug differences between raw and formatted lines
 
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(100, 30);
 
         $lines = [
@@ -267,7 +267,7 @@ class VirtualTerminalTest extends TestCase
     #[Test]
     public function vendor_frame_detection_works()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 40);
 
         // Stack frames need the ANSI reset prefix that LogFormatter expects
@@ -332,7 +332,7 @@ class VirtualTerminalTest extends TestCase
         // Debug test to understand vendor frame detection
         // Run with: ./vendor/bin/phpunit --filter debug_vendor_frame_formatting -v
 
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 30);
 
         // Minimal stack trace - must match the exact format LogFormatter expects
@@ -371,7 +371,7 @@ class VirtualTerminalTest extends TestCase
     public function vendor_frame_detection_with_real_fixture()
     {
         // Use the real fixture which has known vendor frames
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 50);
 
         // Load the first 50 lines of the fixture (contains stack trace)

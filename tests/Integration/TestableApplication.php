@@ -193,7 +193,7 @@ class TestableApplication extends Application
     {
         $output = $this->renderFrame();
         echo "\n=== Rendered Frame ===\n";
-        $visible = str_replace("\e", "\\e", $output);
+        $visible = str_replace("\e", '\\e', $output);
         echo $visible;
         echo "\n=== End ===\n";
     }

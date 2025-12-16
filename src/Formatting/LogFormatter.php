@@ -174,7 +174,7 @@ class LogFormatter
         $vendorGroupId = null;
 
         if ($isVendor) {
-            if (!$this->inVendorGroup) {
+            if (! $this->inVendorGroup) {
                 $this->vendorGroupId++;
                 $this->inVendorGroup = true;
             }
@@ -277,7 +277,7 @@ class LogFormatter
     {
         $plain = AnsiAware::plain($line);
 
-        return (str_contains($plain, '/vendor/') && !preg_match("/BoundMethod\.php\([0-9]+\): App/", $plain))
+        return (str_contains($plain, '/vendor/') && ! preg_match("/BoundMethod\.php\([0-9]+\): App/", $plain))
             || str_ends_with($plain, '{main}');
     }
 
@@ -296,7 +296,7 @@ class LogFormatter
         $wrapped = $this->wrapLine($line, $width, $continuationIndent);
         $fullWrapCount = count($wrapped);
 
-        if (!$this->wrapLines && $fullWrapCount > 1) {
+        if (! $this->wrapLines && $fullWrapCount > 1) {
             // Truncate: keep first line, add indicator
             $indicator = $this->dim(' ...');
             $indicatorLen = AnsiAware::mb_strlen($indicator);
@@ -334,7 +334,7 @@ class LogFormatter
         }
 
         // If wrapping is disabled, truncate to first line with indicator
-        if (!$this->wrapLines && count($result) > 1) {
+        if (! $this->wrapLines && count($result) > 1) {
             $indicator = $this->dim(' ...');
             $indicatorLen = AnsiAware::mb_strlen($indicator);
 

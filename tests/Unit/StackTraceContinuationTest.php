@@ -117,7 +117,7 @@ class StackTraceContinuationTest extends TestCase
             // All other lines in trace should have borders
             if (str_contains($plain, '#') || str_contains($plain, 'line.php') || str_contains($plain, '.php')) {
                 $this->assertStringContainsString('│', $plain,
-                    "Line $i should have borders: " . substr($plain, 0, 50));
+                    "Line $i should have borders: ".substr($plain, 0, 50));
             }
         }
     }
@@ -223,10 +223,12 @@ class StackTraceContinuationTest extends TestCase
 
             if (str_contains($plain, '╭─Trace')) {
                 $inTrace = true;
+
                 continue;
             }
             if (str_contains($plain, '╰═')) {
                 $inTrace = false;
+
                 continue;
             }
 

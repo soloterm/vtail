@@ -26,7 +26,8 @@ class DirtyFlagTest extends TestCase
 
         // Set up required dependencies so methods don't fail
         $this->setProperty($app, 'formatter', new LogFormatter(120));
-        $this->setProperty($app, 'terminal', new class extends Terminal {
+        $this->setProperty($app, 'terminal', new class extends Terminal
+        {
             public function cols(): int
             {
                 return 120;
@@ -156,7 +157,8 @@ class DirtyFlagTest extends TestCase
 
             // Set up required dependencies
             $this->setProperty($app, 'formatter', new LogFormatter(120));
-            $this->setProperty($app, 'terminal', new class extends Terminal {
+            $this->setProperty($app, 'terminal', new class extends Terminal
+            {
                 public function cols(): int
                 {
                     return 120;

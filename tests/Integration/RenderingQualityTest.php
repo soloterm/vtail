@@ -22,7 +22,7 @@ class RenderingQualityTest extends TestCase
     #[Test]
     public function trace_box_has_consistent_borders()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 50);
 
         // Load a real exception with stack trace
@@ -82,7 +82,7 @@ class RenderingQualityTest extends TestCase
     #[Test]
     public function no_stray_characters_outside_content()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 50);
 
         $lines = $this->getSimpleStackTrace();
@@ -113,7 +113,7 @@ class RenderingQualityTest extends TestCase
     #[Test]
     public function wrapped_lines_maintain_trace_box_structure()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(100, 40); // Narrower to force wrapping
 
         $lines = $this->getSimpleStackTrace();
@@ -155,7 +155,7 @@ class RenderingQualityTest extends TestCase
     #[Test]
     public function vendor_frames_are_detected_in_output()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 40);
 
         $lines = $this->getSimpleStackTrace();
@@ -174,7 +174,7 @@ class RenderingQualityTest extends TestCase
     {
         // FIXED: We no longer use SGR 8 (hidden text) which wasn't supported by most terminals.
 
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 40);
 
         $lines = $this->getSimpleStackTrace();
@@ -218,7 +218,7 @@ class RenderingQualityTest extends TestCase
     #[Test]
     public function hotkey_bar_is_on_last_line()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(100, 30);
 
         $app->addLines(['[2025-01-01] Test message']);
@@ -242,7 +242,7 @@ class RenderingQualityTest extends TestCase
     #[Test]
     public function all_formatted_lines_fit_within_terminal_width()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $width = 100;
         $app->setDimensions($width, 40);
 
@@ -269,7 +269,7 @@ class RenderingQualityTest extends TestCase
         // This test outputs the actual rendered content for visual inspection
         // Run with: ./vendor/bin/phpunit --filter debug_actual_rendering_output
 
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 35);
 
         // Use first exception from fixture
@@ -320,7 +320,7 @@ class RenderingQualityTest extends TestCase
     #[Test]
     public function trace_box_closing_border_is_correct()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 40);
 
         $lines = $this->getSimpleStackTrace();
@@ -350,7 +350,7 @@ class RenderingQualityTest extends TestCase
     #[Test]
     public function trace_box_header_is_correct()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 40);
 
         $lines = $this->getSimpleStackTrace();
@@ -380,7 +380,7 @@ class RenderingQualityTest extends TestCase
     #[Test]
     public function wrap_produces_multiple_lines()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(60, 30); // Narrow to force wrapping
 
         // Add a long line that will wrap
@@ -397,7 +397,7 @@ class RenderingQualityTest extends TestCase
     #[Test]
     public function vendor_frames_collapse_when_hidden()
     {
-        $app = new TestableApplication();
+        $app = new TestableApplication;
         $app->setDimensions(120, 40);
 
         // Use a stack trace with consecutive vendor frames that will collapse
