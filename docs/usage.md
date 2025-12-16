@@ -19,6 +19,7 @@ The file argument is required. If the file doesn't exist, vtail will create it a
 |--------|-------------|
 | `-h`, `--help` | Show help message |
 | `-n <lines>` | Number of lines to show initially (default: 100) |
+| `--max-lines <n>` | Maximum lines to keep in memory (default: 1000) |
 | `--no-vendor` | Start with vendor frames hidden |
 | `--no-wrap` | Start with line wrapping disabled |
 
@@ -64,6 +65,14 @@ Hide vendor frames and show more history:
 vtail --no-vendor -n 200 storage/logs/laravel.log
 ```
 
+### Increase memory buffer
+
+Keep more lines in memory for long monitoring sessions:
+
+```bash
+vtail --max-lines 5000 storage/logs/laravel.log
+```
+
 ## Status Bar
 
 The top of the screen shows a status bar with current settings:
@@ -92,6 +101,6 @@ Labels update to reflect current state. When vendor frames are hidden, it shows 
 
 ## Buffer Management
 
-vtail maintains a buffer of up to 1,000 raw log lines. When the buffer exceeds this limit, older lines are automatically trimmed. The scroll position adjusts to maintain your current view.
+vtail maintains a buffer of log lines in memory (default: 1,000 lines, configurable with `--max-lines`). When the buffer exceeds 120% of the limit (e.g., 1,200 lines at the default setting), older lines are automatically trimmed. The scroll position adjusts to maintain your current view.
 
-This keeps memory usage bounded during long monitoring sessions.
+This keeps memory usage bounded during long monitoring sessions while avoiding constant trimming on every new line.

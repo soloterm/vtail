@@ -21,7 +21,7 @@ vtail uses vim-style keybindings for navigation and single-key toggles for featu
 | `G` | Jump to bottom (enables follow) |
 | `PgUp` | Page up |
 | `PgDn` | Page down |
-| `q` / `Ctrl-C` | Quit |
+| `q` / `Ctrl-C` / `Ctrl-D` | Quit |
 
 ## Navigation
 
@@ -99,6 +99,6 @@ Clears the log file contents. This:
 
 Useful when you want a fresh start without restarting vtail.
 
-### Quit (`q` / `Ctrl-C`)
+### Quit (`q` / `Ctrl-C` / `Ctrl-D`)
 
 Exit vtail and return to your shell. The terminal is restored to its normal state.
