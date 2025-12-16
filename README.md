@@ -1,5 +1,9 @@
 # vtail
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/soloterm/vtail.svg)](https://packagist.org/packages/soloterm/vtail)
+[![Total Downloads](https://img.shields.io/packagist/dt/soloterm/vtail.svg)](https://packagist.org/packages/soloterm/vtail)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
+
 Vendor-aware tail for Laravel logs with stack trace formatting and vendor frame collapsing.
 
 vtail is an interactive TUI for real-time log monitoring that intelligently collapses vendor frames in stack traces, making it easier to focus on your application code.

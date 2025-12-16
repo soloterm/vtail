@@ -1,4 +1,5 @@
 name: Release
+run-name: Release v${{ inputs.version }}
 
 on:
   workflow_dispatch:
@@ -11,105 +12,49 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: github.actor == 'aaronfrancis'
+    if: github.actor == 'aarondfrancis'
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Validate version format
         run: |
           VERSION="${{ inputs.version }}"
-          if ! echo "$VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
-            echo "Error: Version must be in X.Y.Z format (e.g., 1.2.0)"
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Invalid version format '$VERSION'. Expected X.Y.Z"
             exit 1
           fi
-          echo "Version $VERSION is valid"
 
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Update CHANGELOG
+      - name: Validate changelog (before creating tag)
         run: |
-          VERSION="${{ inputs.version }}"
-          DATE=$(date +%Y-%m-%d)
+          chmod +x .github/scripts/parse-changelog.sh
+          .github/scripts/parse-changelog.sh validate
 
-          # Configure git
+      - name: Configure git
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Check if [Unreleased] section exists
-          if ! grep -q "## \[Unreleased\]" CHANGELOG.md; then
-            echo "Error: CHANGELOG.md does not contain an [Unreleased] section"
-            exit 1
-          fi
-
-          # Use awk to properly move content from [Unreleased] to the new version
-          awk -v version="$VERSION" -v date="$DATE" '
-            BEGIN { in_unreleased = 0; content = "" }
-            /^## \[Unreleased\]/ {
-              print $0
-              print ""
-              in_unreleased = 1
-              next
-            }
-            /^## \[/ && in_unreleased {
-              # Found next version section, output new version with collected content
-              print "## [" version "] - " date
-              print content
-              in_unreleased = 0
-            }
-            in_unreleased {
-              content = content $0 "\n"
-              next
-            }
-            { print }
-          ' CHANGELOG.md > CHANGELOG.md.tmp && mv CHANGELOG.md.tmp CHANGELOG.md
-
-          # Handle the case where there's no previous version section (first release)
-          if ! grep -q "## \[$VERSION\]" CHANGELOG.md; then
-            # The awk script didn't find a previous version section, so we need to append the new version
-            # Find the line with [Unreleased] section and insert after the empty unreleased content
-            awk -v version="$VERSION" -v date="$DATE" '
-              BEGIN { in_unreleased = 0; printed_version = 0 }
-              /^## \[Unreleased\]/ {
-                print $0
-                in_unreleased = 1
-                next
-              }
-              /^\[Unreleased\]:/ && in_unreleased && !printed_version {
-                print ""
-                print "## [" version "] - " date
-                print ""
-                printed_version = 1
-              }
-              { print }
-            ' CHANGELOG.md > CHANGELOG.md.tmp && mv CHANGELOG.md.tmp CHANGELOG.md
-          fi
-
-          # Update the links at the bottom
-          # Get the previous version if it exists
-          PREV_VERSION=$(grep -oE '\[[0-9]+\.[0-9]+\.[0-9]+\]:' CHANGELOG.md | head -1 | tr -d '[]' | tr -d ':')
-
-          if [ -n "$PREV_VERSION" ] && [ "$PREV_VERSION" != "$VERSION" ]; then
-            # Update Unreleased link to compare against the new version
-            sed -i "s|\[Unreleased\]: \(.*\)/compare/v[0-9.]*\.\.\.HEAD|[Unreleased]: \1/compare/v$VERSION...HEAD|" CHANGELOG.md
-
-            # Add the new version link before the previous version link
-            sed -i "/^\[$PREV_VERSION\]:/i [$VERSION]: https://github.com/soloterm/vtail/compare/v$PREV_VERSION...v$VERSION" CHANGELOG.md
-          else
-            # First release - update Unreleased link and add version link
-            sed -i "s|\[Unreleased\]: .*/compare/.*|[Unreleased]: https://github.com/soloterm/vtail/compare/v$VERSION...HEAD|" CHANGELOG.md
-            echo "[$VERSION]: https://github.com/soloterm/vtail/releases/tag/v$VERSION" >> CHANGELOG.md
-          fi
-
-          # Commit the changelog update
-          git add CHANGELOG.md
-          git commit -m "Release v$VERSION"
-          git push
 
       - name: Create and push tag
         run: |
           VERSION="${{ inputs.version }}"
           git tag "v$VERSION"
           git push origin "v$VERSION"
+
+      - name: Update changelog
+        run: |
+          VERSION="${{ inputs.version }}"
+          .github/scripts/parse-changelog.sh release "$VERSION"
+
+      - name: Commit and push changelog
+        run: |
+          VERSION="${{ inputs.version }}"
+          git add CHANGELOG.md
+          git commit -m "Update changelog for v$VERSION"
+          git push
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
