@@ -1,0 +1,25 @@
+ test.log | Lines: 9 | VENDOR: shown | WRAP: on | FOLLOWING                                         
+[2025-01-01 12:00:00] local.ERROR: Test error                                                       
+ (Exception(code: 0): Test error at /app/src/MyClass.php:100)                                       
+ ╭─Trace───────────────────────────────────────────────────────────────────────────────────────────╮
+ │ #00 /app/vendor/laravel/framework/Pipeline.php(50): SomeClass->method()                         │
+ │ #01 /app/src/Controllers/TestController.php(25): Pipeline->handle()                             │
+ │ #02 /app/vendor/symfony/http-kernel/Kernel.php(100): Controller->action()                       │
+ │ #03 /app/public/index.php(17): Kernel->handle()                                                 │
+ │ #04 {main}                                                                                      │
+ ╰═════════════════════════════════════════════════════════════════════════════════════════════════╯
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+ v hide vendor  w disable wrapping  t truncate file  f unfollow  q quit                             

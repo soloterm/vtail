@@ -1,0 +1,50 @@
+{
+    "name": "soloterm/vtail",
+    "description": "Vendor-aware tail for Laravel logs with stack trace formatting and vendor frame collapsing",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["tail", "log", "laravel", "cli", "terminal"],
+    "authors": [
+        {
+            "name": "Aaron Francis",
+            "email": "aaron@tryhardstudios.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/soloterm/screen"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-pcntl": "*",
+        "ext-posix": "*",
+        "ext-mbstring": "*",
+        "soloterm/screen": "@dev",
+        "soloterm/grapheme": "^1",
+        "symfony/console": "^6.0|^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5|^11"
+    },
+    "autoload": {
+        "psr-4": {
+            "SoloTerm\\Vtail\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SoloTerm\\Vtail\\Tests\\": "tests/"
+        }
+    },
+    "bin": ["bin/vtail"],
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

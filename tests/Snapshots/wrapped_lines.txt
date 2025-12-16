@@ -1,0 +1,30 @@
+ test.log | Lines: 7 | VENDOR: shown | WRAP: on | FOLLOWING                     
+[2025-01-01] Error                                                              
+ (Exception at /app/file.php:1)                                                 
+ ╭─Trace───────────────────────────────────────────────────────────────────────╮
+ │ #00 /app/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(50): │
+ │      VeryLongClassName->veryLongMethodName()                                │
+ │ #01 /app/src/Controllers/TestController.php(25): handle()                   │
+ ╰═════════════════════════════════════════════════════════════════════════════╯
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+ v hide vendor  w disable wrapping  t truncate file  f unfollow  q quit         

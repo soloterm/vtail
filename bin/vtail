@@ -1,0 +1,97 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * vtail - Vendor-aware tail for Laravel logs
+ *
+ * @author Aaron Francis <aaron@tryhardstudios.com>
+ *
+ * @link https://aaronfrancis.com
+ * @link https://x.com/aarondfrancis
+ */
+
+// Find autoloader
+foreach ([
+    __DIR__ . '/../vendor/autoload.php',      // Local development
+    __DIR__ . '/../../../autoload.php',       // Installed as dependency
+] as $autoload) {
+    if (file_exists($autoload)) {
+        require $autoload;
+        break;
+    }
+}
+
+use SoloTerm\Vtail\Application;
+
+// Parse command line arguments
+$options = getopt('hn:', ['help', 'no-vendor', 'no-wrap', 'max-lines:'], $restIndex);
+$positional = array_slice($argv, $restIndex);
+
+// Help
+if (isset($options['h']) || isset($options['help'])) {
+    echo <<<HELP
+vtail - Vendor-aware tail for Laravel logs
+
+Usage: vtail [options] <file>
+
+Options:
+  -h, --help         Show this help message
+  -n <lines>         Number of lines to show initially (default: 100)
+  --max-lines <n>    Maximum lines to keep in memory (default: 1000)
+  --no-vendor        Start with vendor frames hidden
+  --no-wrap          Start with line wrapping disabled
+
+Hotkeys:
+  v          Toggle vendor frame visibility
+  w          Toggle line wrapping
+  t          Truncate log file
+  f / Space  Toggle follow mode
+  j / Down   Scroll down
+  k / Up     Scroll up
+  g          Go to top
+  G          Go to bottom
+  PgUp       Page up
+  PgDn       Page down
+  q          Quit
+
+Examples:
+  vtail storage/logs/laravel.log
+  vtail --no-vendor laravel.log
+  vtail --no-wrap /var/log/app.log
+
+HELP;
+    exit(0);
+}
+
+// Get file argument
+$file = $positional[0] ?? null;
+
+if (!$file) {
+    fwrite(STDERR, "Error: No file specified\n");
+    fwrite(STDERR, "Usage: vtail [options] <file>\n");
+    fwrite(STDERR, "Try 'vtail --help' for more information.\n");
+    exit(1);
+}
+
+// Resolve relative path
+if (!str_starts_with($file, '/')) {
+    $file = getcwd() . '/' . $file;
+}
+
+// Validate file path (allow non-existent files - they'll be created)
+$dir = dirname($file);
+if (!is_dir($dir)) {
+    fwrite(STDERR, "Error: Directory does not exist: {$dir}\n");
+    exit(1);
+}
+
+// Create and run application
+$app = new Application(
+    file: $file,
+    hideVendor: isset($options['no-vendor']),
+    wrapLines: !isset($options['no-wrap']),
+    tailLines: isset($options['n']) ? (int) $options['n'] : 100,
+    maxLines: isset($options['max-lines']) ? (int) $options['max-lines'] : 1000
+);
+
+exit($app->run());

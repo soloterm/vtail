@@ -1,0 +1,25 @@
+ test.log | Lines: 7 | VENDOR: hidden | WRAP: on | FOLLOWING                                        
+[2025-01-01] Error                                                                                  
+ (Exception at /app/file.php:1)                                                                     
+ ╭─Trace───────────────────────────────────────────────────────────────────────────────────────────╮
+ │ #… (2 vendor frames)                                                                            │
+ │ #02 /app/src/Controllers/MyController.php(25): handle()                                         │
+ │ #… (2 vendor frames)                                                                            │
+ ╰═════════════════════════════════════════════════════════════════════════════════════════════════╯
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+ v show vendor  w disable wrapping  t truncate file  f unfollow  q quit                             

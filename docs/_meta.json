@@ -1,0 +1,11 @@
+{
+    "title": "vtail",
+    "description": "Vendor-aware Laravel log viewer with smart stack trace formatting",
+    "pages": [
+        { "slug": "index", "title": "Introduction" },
+        { "slug": "installation", "title": "Installation" },
+        { "slug": "usage", "title": "Usage" },
+        { "slug": "keybindings", "title": "Keybindings" },
+        { "slug": "stack-traces", "title": "Stack Traces" }
+    ]
+}

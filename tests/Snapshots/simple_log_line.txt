@@ -1,0 +1,10 @@
+ test.log | Lines: 1 | VENDOR: shown | WRAP: on | FOLLOWING                     
+[2025-01-01 12:00:00] local.INFO: Hello world                                   
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+ v hide vendor  w disable wrapping  t truncate file  f unfollow  q quit         
