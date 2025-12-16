@@ -22,7 +22,7 @@ class DiagnosticTest extends TestCase
 
         // Load last 100 lines from actual log
         $logPath = '/Users/aaron/Code/lifeos/storage/logs/laravel.log';
-        if (!file_exists($logPath)) {
+        if (! file_exists($logPath)) {
             $this->markTestSkipped('Log file not found');
         }
 
@@ -50,10 +50,12 @@ class DiagnosticTest extends TestCase
 
             if (str_contains($plain, '╭─Trace')) {
                 $inTrace = true;
+
                 continue;
             }
             if (str_contains($plain, '╰═')) {
                 $inTrace = false;
+
                 continue;
             }
 
@@ -77,13 +79,13 @@ class DiagnosticTest extends TestCase
             $prevLine = $line;
         }
 
-        if (!empty($blankLines)) {
+        if (! empty($blankLines)) {
             echo "\n\n=== BLANK LINES FOUND ===\n";
             foreach ($blankLines as $info) {
                 echo "Line {$info['index']}:\n";
                 echo "  Plain: |{$info['plain']}|\n";
                 echo "  After: |{$info['prev_plain']}|\n";
-                echo "  Raw bytes: ".bin2hex(substr($info['raw'], 0, 50))."...\n\n";
+                echo '  Raw bytes: '.bin2hex(substr($info['raw'], 0, 50))."...\n\n";
             }
         }
 
@@ -92,14 +94,14 @@ class DiagnosticTest extends TestCase
     }
 
     #[Test]
-    public function diagnose_wrapLine_produces_empty_continuation()
+    public function diagnose_wrap_line_produces_empty_continuation()
     {
         $formatter = new LogFormatter(180);
 
         // Test lines that might produce empty continuations
         $testLines = [
-            "#47 /vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))",
-            "#48 /vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))",
+            '#47 /vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))',
+            '#48 /vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))',
         ];
 
         $traceContentWidth = 180 - 6; // Account for borders

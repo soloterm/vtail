@@ -156,7 +156,7 @@ class LineCollection
      * @param  bool  $wasHiding  Previous hide vendor state
      * @param  bool  $nowHiding  New hide vendor state
      * @param  int  $currentIndex  Current scroll index
-     * @return int  New scroll index
+     * @return int New scroll index
      */
     public function getScrollIndexForVendorToggle(bool $wasHiding, bool $nowHiding, int $currentIndex): int
     {
@@ -164,7 +164,7 @@ class LineCollection
             return $currentIndex;
         }
 
-        if (!$wasHiding && $nowHiding) {
+        if (! $wasHiding && $nowHiding) {
             // Hiding vendor: vendor groups collapse to single lines
             return $this->calculateScrollForHideVendor($currentIndex);
         } else {
@@ -186,7 +186,7 @@ class LineCollection
             if ($line->isVendorFrame && $line->vendorGroupId !== null) {
                 $wrapCount = $line->wrapCount();
 
-                if (!isset($vendorGroupsSeen[$line->vendorGroupId])) {
+                if (! isset($vendorGroupsSeen[$line->vendorGroupId])) {
                     // First frame in group: will become 1 collapsed line
                     $vendorGroupsSeen[$line->vendorGroupId] = true;
 
@@ -236,7 +236,7 @@ class LineCollection
         // First pass: count total lines per vendor group
         foreach ($this->lines as $line) {
             if ($line->isVendorFrame && $line->vendorGroupId !== null) {
-                if (!isset($vendorGroupLineCounts[$line->vendorGroupId])) {
+                if (! isset($vendorGroupLineCounts[$line->vendorGroupId])) {
                     $vendorGroupLineCounts[$line->vendorGroupId] = 0;
                 }
                 $vendorGroupLineCounts[$line->vendorGroupId] += $line->wrapCount();
@@ -246,7 +246,7 @@ class LineCollection
         // Second pass: calculate scroll adjustment
         foreach ($this->lines as $line) {
             if ($line->isVendorFrame && $line->vendorGroupId !== null) {
-                if (!isset($vendorGroupsSeen[$line->vendorGroupId])) {
+                if (! isset($vendorGroupsSeen[$line->vendorGroupId])) {
                     $vendorGroupsSeen[$line->vendorGroupId] = true;
 
                     // Currently showing 1 collapsed line, will expand to full group
@@ -279,7 +279,7 @@ class LineCollection
      * @param  bool  $wasWrapping  Previous wrap state
      * @param  bool  $nowWrapping  New wrap state
      * @param  int  $currentIndex  Current scroll index
-     * @return int  New scroll index
+     * @return int New scroll index
      */
     public function getScrollIndexForWrapToggle(bool $wasWrapping, bool $nowWrapping, int $currentIndex): int
     {
@@ -287,7 +287,7 @@ class LineCollection
             return $currentIndex;
         }
 
-        if ($wasWrapping && !$nowWrapping) {
+        if ($wasWrapping && ! $nowWrapping) {
             // Disabling wrap: multiple display lines collapse to single lines
             return $this->calculateScrollForDisableWrap($currentIndex);
         } else {
@@ -313,6 +313,7 @@ class LineCollection
                 if ($displayLinesSeen >= $currentIndex) {
                     break;
                 }
+
                 continue;
             }
 
@@ -351,6 +352,7 @@ class LineCollection
                 if ($displayLinesSeen >= $currentIndex) {
                     break;
                 }
+
                 continue;
             }
 
@@ -398,7 +400,7 @@ class LineCollection
         if ($hideVendor) {
             foreach ($this->lines as $line) {
                 if ($line->isVendorFrame && $line->vendorGroupId !== null) {
-                    if (!isset($vendorGroupCounts[$line->vendorGroupId])) {
+                    if (! isset($vendorGroupCounts[$line->vendorGroupId])) {
                         $vendorGroupCounts[$line->vendorGroupId] = 0;
                     }
                     $vendorGroupCounts[$line->vendorGroupId]++;
@@ -409,7 +411,7 @@ class LineCollection
         foreach ($this->lines as $line) {
             if ($hideVendor && $line->isVendorFrame && $line->vendorGroupId !== null) {
                 // Collapse vendor frames: only show one line per group
-                if (!isset($vendorGroupsSeen[$line->vendorGroupId])) {
+                if (! isset($vendorGroupsSeen[$line->vendorGroupId])) {
                     $vendorGroupsSeen[$line->vendorGroupId] = true;
                     // Create collapsed marker with count
                     $count = $vendorGroupCounts[$line->vendorGroupId];

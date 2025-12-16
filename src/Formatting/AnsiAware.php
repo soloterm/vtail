@@ -32,7 +32,7 @@ class AnsiAware
         }
 
         // Fast path for pure ASCII
-        if (!preg_match('/[^\x00-\x7F]/', $string)) {
+        if (! preg_match('/[^\x00-\x7F]/', $string)) {
             return strlen($string);
         }
 

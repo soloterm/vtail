@@ -95,13 +95,13 @@ class Application
 
     public function run(): int
     {
-        if (!$this->terminal->isInteractive()) {
+        if (! $this->terminal->isInteractive()) {
             fwrite(STDERR, "Error: vtail requires an interactive terminal\n");
 
             return 1;
         }
 
-        if (!file_exists($this->file)) {
+        if (! file_exists($this->file)) {
             touch($this->file);
         }
 
@@ -133,18 +133,18 @@ class Application
     protected function setupHotkeys(): void
     {
         $this->listener
-            ->on('v', fn() => $this->toggleVendorFrames())
-            ->on('w', fn() => $this->toggleWrapping())
-            ->on('t', fn() => $this->truncateFile())
-            ->on(['q', KeyCodes::CTRL_C, KeyCodes::CTRL_D], fn() => $this->running = false)
-            ->on([KeyCodes::UP, 'k'], fn() => $this->scrollUp())
-            ->on([KeyCodes::DOWN, 'j'], fn() => $this->scrollDown())
-            ->on(KeyCodes::PAGE_UP, fn() => $this->pageUp())
-            ->on(KeyCodes::PAGE_DOWN, fn() => $this->pageDown())
-            ->on('g', fn() => $this->scrollToTop())
-            ->on('G', fn() => $this->scrollToBottom())
-            ->on('f', fn() => $this->toggleFollow())
-            ->on(KeyCodes::SPACE, fn() => $this->toggleFollow());
+            ->on('v', fn () => $this->toggleVendorFrames())
+            ->on('w', fn () => $this->toggleWrapping())
+            ->on('t', fn () => $this->truncateFile())
+            ->on(['q', KeyCodes::CTRL_C, KeyCodes::CTRL_D], fn () => $this->running = false)
+            ->on([KeyCodes::UP, 'k'], fn () => $this->scrollUp())
+            ->on([KeyCodes::DOWN, 'j'], fn () => $this->scrollDown())
+            ->on(KeyCodes::PAGE_UP, fn () => $this->pageUp())
+            ->on(KeyCodes::PAGE_DOWN, fn () => $this->pageDown())
+            ->on('g', fn () => $this->scrollToTop())
+            ->on('G', fn () => $this->scrollToBottom())
+            ->on('f', fn () => $this->toggleFollow())
+            ->on(KeyCodes::SPACE, fn () => $this->toggleFollow());
     }
 
     protected function setupSignals(): void
@@ -173,12 +173,12 @@ class Application
         ];
 
         $this->tailProcess = proc_open(
-            'tail -f -n ' . $this->tailLines . ' ' . escapeshellarg($this->file),
+            'tail -f -n '.$this->tailLines.' '.escapeshellarg($this->file),
             $descriptors,
             $pipes
         );
 
-        if (!is_resource($this->tailProcess)) {
+        if (! is_resource($this->tailProcess)) {
             throw new \RuntimeException('Failed to start tail process');
         }
 
@@ -207,7 +207,7 @@ class Application
 
     protected function collectOutput(): bool
     {
-        if (!$this->tailPipes) {
+        if (! $this->tailPipes) {
             return false;
         }
 
@@ -324,7 +324,7 @@ class Application
         echo "\e[H";
 
         // Top bar: status with preferences
-        echo $this->renderStatusBar() . "\r\n";
+        echo $this->renderStatusBar()."\r\n";
 
         // Content - directly echo visible lines
         // Use \r\n instead of \n to handle Ghostty's pending wrap behavior
@@ -340,7 +340,7 @@ class Application
                 if (AnsiAware::mb_strlen($line) > $cols) {
                     $line = AnsiAware::substr($line, 0, $cols);
                 }
-                echo "\e[2K" . $line . "\r\n";
+                echo "\e[2K".$line."\r\n";
             }
 
             // Clear remaining rows if content doesn't fill screen
@@ -370,11 +370,11 @@ class Application
         $follow = $this->following ? 'FOLLOWING' : '';
 
         $parts = array_filter([$filename, "Lines: {$lineCount}", $vendor, $wrap, $follow]);
-        $status = ' ' . implode(' | ', $parts) . ' ';
+        $status = ' '.implode(' | ', $parts).' ';
 
         $padded = AnsiAware::pad($status, $this->terminal->cols());
 
-        return "\e[7m" . $padded . "\e[27m";
+        return "\e[7m".$padded."\e[27m";
     }
 
     protected function renderHotkeyBar(): string
@@ -389,14 +389,14 @@ class Application
 
         $parts = [];
         foreach ($hotkeys as $key => $label) {
-            $parts[] = $key . ' ' . $label;
+            $parts[] = $key.' '.$label;
         }
 
-        $bar = ' ' . implode('  ', $parts);
+        $bar = ' '.implode('  ', $parts);
 
         $padded = AnsiAware::pad($bar, $this->terminal->cols());
 
-        return "\e[7m" . $padded . "\e[27m";
+        return "\e[7m".$padded."\e[27m";
     }
 
     protected function waitForInput(int $timeoutUs): void
@@ -433,7 +433,7 @@ class Application
     protected function toggleVendorFrames(): void
     {
         $wasHiding = $this->hideVendor;
-        $this->hideVendor = !$this->hideVendor;
+        $this->hideVendor = ! $this->hideVendor;
 
         // Adjust scroll position to keep same content visible
         if ($this->lineCollection !== null) {
@@ -451,7 +451,7 @@ class Application
     protected function toggleWrapping(): void
     {
         $wasWrapping = $this->wrapLines;
-        $this->wrapLines = !$this->wrapLines;
+        $this->wrapLines = ! $this->wrapLines;
 
         // Adjust scroll position to keep same content visible
         if ($this->lineCollection !== null) {
@@ -478,7 +478,7 @@ class Application
 
     protected function toggleFollow(): void
     {
-        $this->following = !$this->following;
+        $this->following = ! $this->following;
 
         if ($this->following) {
             $this->scrollToBottom();
