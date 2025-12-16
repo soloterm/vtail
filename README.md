@@ -221,6 +221,10 @@ MIT
 
 vtail is part of the [SoloTerm](https://github.com/soloterm) project:
 
-- **[solo](https://github.com/soloterm/solo)** - Laravel TUI for running multiple dev commands
-- **[screen](https://github.com/soloterm/screen)** - Pure PHP terminal renderer
-- **[grapheme](https://github.com/soloterm/grapheme)** - Unicode grapheme width calculator
+- [Solo](https://github.com/soloterm/solo) - All-in-one Laravel command for local development
+- [Screen](https://github.com/soloterm/screen) - Pure PHP terminal renderer
+- [Dumps](https://github.com/soloterm/dumps) - Laravel command to intercept dumps
+- [Grapheme](https://github.com/soloterm/grapheme) - Unicode grapheme width calculator
+- [Notify](https://github.com/soloterm/notify) - PHP package for desktop notifications via OSC escape sequences
+- [Notify Laravel](https://github.com/soloterm/notify-laravel) - Laravel integration for soloterm/notify
+- [TNotify](https://github.com/soloterm/tnotify) - Standalone, cross-platform CLI for desktop notifications
