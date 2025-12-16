@@ -11,13 +11,19 @@ namespace SoloTerm\Vtail\Formatting;
 
 use SoloTerm\Grapheme\Grapheme;
 
+/**
+ * Utility for manipulating strings containing ANSI escape sequences.
+ *
+ * All methods preserve ANSI formatting codes while performing string operations
+ * like length calculation, substring extraction, word wrapping, and padding.
+ */
 class AnsiAware
 {
     /**
      * Calculate the display width of a string, accounting for ANSI codes.
      * Uses grapheme-based width calculation for proper Unicode support.
      */
-    public static function mb_strlen($string): int
+    public static function mb_strlen(string $string): int
     {
         return self::stringWidth(static::plain($string));
     }
@@ -53,7 +59,7 @@ class AnsiAware
         return $width;
     }
 
-    public static function plain($string): string
+    public static function plain(string $string): string
     {
         // Regular expression to match ANSI escape sequences
         $ansiEscapeSequence = '/\x1b\[[0-9;]*[A-Za-z]/';
@@ -62,7 +68,7 @@ class AnsiAware
         return preg_replace($ansiEscapeSequence, '', $string);
     }
 
-    public static function substr($string, $start, $length = null): string
+    public static function substr(string $string, int $start, ?int $length = null): string
     {
         $ansiEscapeSequence = '/(\x1b\[[0-9;]*[mGK])/';
         $parts = preg_split($ansiEscapeSequence, $string, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
@@ -174,7 +180,7 @@ class AnsiAware
         return implode('', $substringParts);
     }
 
-    public static function wordwrap($string, $width = 75, $break = PHP_EOL, $cut = false): string
+    public static function wordwrap(string $string, int $width = 75, string $break = PHP_EOL, bool $cut = false): string
     {
         $ansiEscapeSequence = '/(\x1b\[[0-9;]*[mGK])/';
         $wordsPattern = '/(\S+\s+)/';
@@ -275,5 +281,13 @@ class AnsiAware
             STR_PAD_BOTH => str_repeat($pad, (int) floor($padding / 2)).$text.str_repeat($pad, (int) ceil($padding / 2)),
             default => $text.$padString,
         };
+    }
+
+    /**
+     * Apply dim (faint) styling to text.
+     */
+    public static function dim(string $text): string
+    {
+        return "\e[2m{$text}\e[22m";
     }
 }

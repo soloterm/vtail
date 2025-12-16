@@ -9,6 +9,16 @@
 
 namespace SoloTerm\Vtail\Formatting;
 
+/**
+ * Parses and formats Laravel log lines with stack trace handling.
+ *
+ * Maintains state while processing lines to:
+ * - Track consecutive vendor frames for collapsing
+ * - Detect stack trace boundaries for bordered formatting
+ * - Handle pre-wrapped continuation lines within traces
+ *
+ * State is reset via reset() when processing a new log file or after truncation.
+ */
 class LogFormatter
 {
     protected int $contentWidth;
@@ -35,16 +45,25 @@ class LogFormatter
         $this->contentWidth = $contentWidth;
     }
 
+    /**
+     * Enable or disable line wrapping.
+     */
     public function setWrapLines(bool $wrapLines): void
     {
         $this->wrapLines = $wrapLines;
     }
 
+    /**
+     * Set the content width for formatting.
+     */
     public function setContentWidth(int $width): void
     {
         $this->contentWidth = $width;
     }
 
+    /**
+     * Reset formatter state for a fresh log file.
+     */
     public function reset(): void
     {
         $this->vendorGroupId = 0;
@@ -109,7 +128,7 @@ class LogFormatter
 
             return new Line(
                 content: $rawLine,
-                formattedLines: [$this->dim(' ╰'.str_repeat('═', $this->contentWidth - 3).'╯')],
+                formattedLines: [AnsiAware::dim(' ╰'.str_repeat('═', $this->contentWidth - 3).'╯')],
                 originalIndex: $index,
             );
         }
@@ -134,7 +153,7 @@ class LogFormatter
 
             return new Line(
                 content: $rawLine,
-                formattedLines: [$this->dim(' ╭─Trace'.str_repeat('─', $this->contentWidth - 9).'╮')],
+                formattedLines: [AnsiAware::dim(' ╭─Trace'.str_repeat('─', $this->contentWidth - 9).'╮')],
                 originalIndex: $index,
                 isStackFrame: true,
             );
@@ -188,7 +207,7 @@ class LogFormatter
         [$wrappedLines, $fullWrapCount] = $this->wrapWithCount($line, $traceContentWidth, 4);
 
         $formattedLines = array_map(
-            fn ($l) => $this->dim(' │ ').AnsiAware::pad($l, $traceContentWidth).$this->dim(' │'),
+            fn ($l) => AnsiAware::dim(' │ ').AnsiAware::pad($l, $traceContentWidth).AnsiAware::dim(' │'),
             $wrappedLines
         );
 
@@ -214,7 +233,7 @@ class LogFormatter
         [$wrappedLines, $fullWrapCount] = $this->wrapWithCount($rawLine, $traceContentWidth, 4);
 
         $formattedLines = array_map(
-            fn ($l) => $this->dim(' │ ').AnsiAware::pad($l, $traceContentWidth).$this->dim(' │'),
+            fn ($l) => AnsiAware::dim(' │ ').AnsiAware::pad($l, $traceContentWidth).AnsiAware::dim(' │'),
             $wrappedLines
         );
 
@@ -272,6 +291,10 @@ class LogFormatter
 
     /**
      * Check if a line represents a vendor frame.
+     *
+     * A frame is considered vendor if:
+     * - Path contains /vendor/ (except BoundMethod.php calling App\ code)
+     * - Frame is {main} (execution root)
      */
     public function isVendorFrame(string $line): bool
     {
@@ -298,7 +321,7 @@ class LogFormatter
 
         if (! $this->wrapLines && $fullWrapCount > 1) {
             // Truncate: keep first line, add indicator
-            $indicator = $this->dim(' ...');
+            $indicator = AnsiAware::dim(' ...');
             $indicatorLen = AnsiAware::mb_strlen($indicator);
 
             $truncated = explode("\n", AnsiAware::wordwrap($wrapped[0], $width - $indicatorLen, "\n", true));
@@ -335,7 +358,7 @@ class LogFormatter
 
         // If wrapping is disabled, truncate to first line with indicator
         if (! $this->wrapLines && count($result) > 1) {
-            $indicator = $this->dim(' ...');
+            $indicator = AnsiAware::dim(' ...');
             $indicatorLen = AnsiAware::mb_strlen($indicator);
 
             $truncated = explode("\n", AnsiAware::wordwrap($result[0], $width - $indicatorLen, "\n", true));
@@ -344,10 +367,5 @@ class LogFormatter
         }
 
         return $result;
-    }
-
-    protected function dim(string $text): string
-    {
-        return "\e[2m{$text}\e[22m";
     }
 }

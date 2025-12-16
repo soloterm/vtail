@@ -18,16 +18,6 @@ class Terminal
     }
 
     /**
-     * Read a line from the terminal.
-     */
-    public function read(): string
-    {
-        $input = fread(STDIN, 1024);
-
-        return $input !== false ? $input : '';
-    }
-
-    /**
      * Set the TTY mode.
      */
     public function setTty(string $mode): void
@@ -74,21 +64,17 @@ class Terminal
     }
 
     /**
-     * (Re)initialize the terminal dimensions.
+     * Reinitialize terminal dimensions after resize (SIGWINCH).
+     *
+     * Uses reflection to call Symfony Terminal's private initDimensions()
+     * method, which re-queries the terminal size. This is necessary because
+     * Symfony Terminal caches dimensions and doesn't expose a public reset.
      */
     public function initDimensions(): void
     {
         (new ReflectionClass($this->terminal))
             ->getMethod('initDimensions')
             ->invoke($this->terminal);
-    }
-
-    /**
-     * Exit the interactive session.
-     */
-    public function exit(): void
-    {
-        exit(1);
     }
 
     /**
@@ -139,11 +125,6 @@ class Terminal
     public function moveCursor(int $row, int $col): void
     {
         echo "\e[{$row};{$col}H";
-    }
-
-    public function clearScreen(): void
-    {
-        echo "\e[2J";
     }
 
     public function isInteractive(): bool

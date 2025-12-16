@@ -37,17 +37,6 @@ class LineCollection
     }
 
     /**
-     * Set all lines at once.
-     *
-     * @param  Line[]  $lines
-     */
-    public function setLines(array $lines): void
-    {
-        $this->lines = $lines;
-        $this->dirty = true;
-    }
-
-    /**
      * Clear all lines.
      */
     public function clear(): void
@@ -438,15 +427,7 @@ class LineCollection
         $traceContentWidth = $this->contentWidth - 5;
         $marker = "#… ({$count} vendor frames)";
 
-        return $this->dim(' │ ').AnsiAware::pad($marker, $traceContentWidth).$this->dim(' │');
-    }
-
-    /**
-     * Apply dim styling to text.
-     */
-    protected function dim(string $text): string
-    {
-        return "\e[2m{$text}\e[22m";
+        return AnsiAware::dim(' │ ').AnsiAware::pad($marker, $traceContentWidth).AnsiAware::dim(' │');
     }
 
     /**
@@ -457,13 +438,5 @@ class LineCollection
     public function getLines(): array
     {
         return $this->lines;
-    }
-
-    /**
-     * Get the count of raw lines.
-     */
-    public function count(): int
-    {
-        return count($this->lines);
     }
 }

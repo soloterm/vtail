@@ -18,6 +18,11 @@ use SoloTerm\Vtail\Terminal\Terminal;
 
 class Application
 {
+    /**
+     * Frame interval in microseconds (40 FPS = 25ms = 25000µs).
+     */
+    protected const FRAME_INTERVAL_US = 25000;
+
     protected Terminal $terminal;
 
     protected KeyPressListener $listener;
@@ -201,7 +206,7 @@ class Application
                 $this->dirty = false;
             }
 
-            $this->waitForInput(25000);
+            $this->waitForInput(self::FRAME_INTERVAL_US);
         }
     }
 
@@ -327,8 +332,8 @@ class Application
         echo $this->renderStatusBar()."\r\n";
 
         // Content - directly echo visible lines
-        // Use \r\n instead of \n to handle Ghostty's pending wrap behavior
-        // (see screen/PENDING_WRAP_DEEP_DIVE.md for details)
+        // Use \r\n to explicitly end each line; prevents "pending wrap" behavior
+        // in terminals like Ghostty where \n alone can cause display artifacts
         if ($this->lineCollection !== null) {
             $visible = $this->lineCollection->getDisplayLines($this->scrollIndex, $this->getContentHeight());
             $cols = $this->terminal->cols();

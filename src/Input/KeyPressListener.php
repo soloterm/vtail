@@ -44,20 +44,4 @@ class KeyPressListener
             }
         }
     }
-
-    /**
-     * Clear all bindings.
-     */
-    public function clear(): void
-    {
-        $this->bindings = [];
-    }
-
-    /**
-     * Check if a key has a binding.
-     */
-    public function has(string $key): bool
-    {
-        return isset($this->bindings[$key]);
-    }
 }

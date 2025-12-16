@@ -37,20 +37,4 @@ class Line
     {
         return count($this->formattedLines);
     }
-
-    /**
-     * Check if this line can be collapsed with other vendor frames.
-     */
-    public function isCollapsibleVendor(): bool
-    {
-        return $this->isVendorFrame && $this->vendorGroupId !== null;
-    }
-
-    /**
-     * Get the formatted content as a single string.
-     */
-    public function getFormattedContent(): string
-    {
-        return implode("\n", $this->formattedLines);
-    }
 }
