@@ -140,7 +140,7 @@
 │  Stack frame example:                                                       │
 │    $this->dim(' │ ')                     = "\e[2m │ \e[22m" (3 visible)    │
 │    + AnsiAware::pad($wrappedLine, traceContentWidth)                       │
-│    + $this->dim(' │ ')                   = "\e[2m │ \e[22m" (3 visible)    │
+│    + $this->dim(' │')                    = "\e[2m │\e[22m"  (2 visible)    │
 │                                                                             │
 │  Total visible width should = contentWidth                                  │
 └─────────────────────────────────────────────────────────────────────────────┘

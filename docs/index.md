@@ -24,9 +24,9 @@ vtail collapses vendor frames into a single line showing the count:
 ```
 ╭─Trace───────────────────────────────────────────────╮
 │ #01 /app/Http/Controllers/UserController.php(42)    │
-│ #... (12 vendor frames)                             │
+│ #… (12 vendor frames)                               │
 │ #14 /app/Services/PaymentService.php(128)           │
-│ #... (5 vendor frames)                              │
+│ #… (5 vendor frames)                                │
 │ #20 /app/Jobs/ProcessPayment.php(67)                │
 ╰─────────────────────────────────────────────────────╯
 ```
@@ -37,7 +37,7 @@ Toggle vendor frames on/off with a single keypress. Focus on what matters.
 
 ### Vendor Frame Collapsing
 
-Hide vendor frames with `v`. Consecutive vendor frames collapse into a count like `#... (5 vendor frames)`. Press `v` again to expand them.
+Hide vendor frames with `v`. Consecutive vendor frames collapse into a count like `#… (5 vendor frames)`. Press `v` again to expand them.
 
 ### Smart Stack Trace Formatting
 

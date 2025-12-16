@@ -63,7 +63,7 @@ Single-digit frame numbers are zero-padded for alignment:
 
 ## Collapsed Vendor Frames
 
-When vendor frames are hidden (press `v`), consecutive vendor frames collapse into a single summary line:
+When vendor frames are hidden (press `v`), consecutive vendor frames collapse into a single summary line showing the count:
 
 ### Before (vendor frames shown)
 
@@ -84,7 +84,7 @@ When vendor frames are hidden (press `v`), consecutive vendor frames collapse in
 ```
 ╭─Trace───────────────────────────────────────────────╮
 │ #01 /app/Http/Controllers/UserController.php(42)    │
-│ #... (5 vendor frames)                              │
+│ #… (5 vendor frames)                                │
 │ #07 /app/Services/UserService.php(128)              │
 ╰─────────────────────────────────────────────────────╯
 ```

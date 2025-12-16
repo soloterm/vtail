@@ -61,7 +61,7 @@ Jumping to bottom with `G` automatically enables follow mode.
 Toggle visibility of vendor frames in stack traces:
 
 - **Shown**: All stack frames displayed
-- **Hidden**: Vendor frames collapsed into counts like `#... (5 vendor frames)`
+- **Hidden**: Vendor frames collapsed into counts like `#… (5 vendor frames)`
 
 The status bar shows current state: `VENDOR: hidden` or `VENDOR: shown`.
 

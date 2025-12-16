@@ -6,12 +6,42 @@ vtail is an interactive TUI for real-time log monitoring that intelligently coll
 
 ## Features
 
-- **Vendor Frame Collapsing** - Hide vendor frames in stack traces with a single keypress, collapsing them into a count like `#... (5 vendor frames)`
+- **Vendor Frame Collapsing** - Hide vendor frames in stack traces with a single keypress, collapsing them into a count like `#… (5 vendor frames)`
 - **Smart Stack Trace Formatting** - Stack traces are visually grouped with borders and dimmed decorations
 - **Line Wrapping Toggle** - Switch between wrapped and truncated long lines
 - **Follow Mode** - Auto-scroll to new log entries as they arrive
 - **Keyboard Navigation** - Vim-style navigation (j/k/g/G) plus page up/down
 - **ANSI & Unicode Aware** - Proper handling of colored output and wide characters (CJK, emoji)
+
+## Vendor Frame Collapsing
+
+Press `v` to toggle vendor frame visibility. Consecutive vendor frames collapse into a single line showing the count:
+
+### Vendor frames shown (default)
+
+```
+ ╭─Trace────────────────────────────────────────────────────────────────────╮
+ │ #00 /app/Http/Controllers/UserController.php(42): store()                │
+ │ #01 /vendor/laravel/framework/src/Illuminate/Routing/Router.php(693)     │
+ │ #02 /vendor/laravel/framework/src/Illuminate/Routing/Router.php(670)     │
+ │ #03 /vendor/laravel/framework/src/Illuminate/Routing/Router.php(636)     │
+ │ #04 /vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183)  │
+ │ #05 /vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119)  │
+ │ #06 /app/Services/UserService.php(128): createUser()                     │
+ ╰══════════════════════════════════════════════════════════════════════════╯
+```
+
+### Vendor frames hidden (press `v`)
+
+```
+ ╭─Trace────────────────────────────────────────────────────────────────────╮
+ │ #00 /app/Http/Controllers/UserController.php(42): store()                │
+ │ #… (5 vendor frames)                                                     │
+ │ #06 /app/Services/UserService.php(128): createUser()                     │
+ ╰══════════════════════════════════════════════════════════════════════════╯
+```
+
+Your application code stands out while framework internals are summarized.
 
 ## Installation
 
@@ -130,7 +160,7 @@ Examples:
     │  │  │ CONTENT AREA                                │  │  │
     │  │  │ ╭─Trace──────────────────────────────────╮  │  │  │
     │  │  │ │ #01 /app/Http/Controllers/Api.php(42)  │  │  │  │
-    │  │  │ │ #... (5 vendor frames)                 │  │  │  │
+    │  │  │ │ #… (5 vendor frames)                   │  │  │  │
     │  │  │ │ #07 /app/Models/User.php(128)          │  │  │  │
     │  │  │ ╰────────────────────────────────────────╯  │  │  │
     │  │  ├─────────────────────────────────────────────┤  │  │
